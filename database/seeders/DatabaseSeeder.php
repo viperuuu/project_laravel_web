@@ -6,15 +6,14 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Seed database khusus entitas FlipPlay Demo Modul 4.
+     */
     public function run(): void
     {
         $this->call([
-            // Demo FlipPlay (Modul 4)
             MediaSeeder::class,
             UserSeeder::class,
-
-            // Codelab (Modul 4)
-            MemberSeeder::class,
         ]);
     }
 }

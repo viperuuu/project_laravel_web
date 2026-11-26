@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "flipplay-modul4-api-collection",
+		"_postman_id": "flipplay-modul4-demo-collection",
 		"name": "FlipPlay REST API - Demo Modul 4",
-		"description": "Koleksi Postman resmi untuk pengujian Demo Modul 4 FlipPlay REST API (Laravel 12). Mencakup seluruh skenario Happy Path dan Failure Path sesuai rubrik penilaian.",
+		"description": "Koleksi Postman khusus Demo Modul 4: Sistem Katalog & Koleksi Media FlipPlay (Anime & Manga) lanjutan dari Modul 3.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -306,70 +306,6 @@
 							"path": ["api", "users", "1", "collections", "1"]
 						},
 						"description": "Custom action: melepaskan relasi media dari koleksi pengguna (detach many-to-many)."
-					}
-				}
-			]
-		},
-		{
-			"name": "3. Codelab Perpustakaan (Modul 4)",
-			"item": [
-				{
-					"name": "1. POST Pinjam Buku (borrow-book)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"book_id\": 1\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/members/1/borrow-book",
-							"host": ["{{base_url}}"],
-							"path": ["api", "members", "1", "borrow-book"]
-						}
-					}
-				},
-				{
-					"name": "2. GET Detail Member & Buku Pinjaman",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/members/1",
-							"host": ["{{base_url}}"],
-							"path": ["api", "members", "1"]
-						}
-					}
-				},
-				{
-					"name": "3. PATCH Kembalikan Buku (return-book)",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/members/1/return-book/1",
-							"host": ["{{base_url}}"],
-							"path": ["api", "members", "1", "return-book", "1"]
-						}
 					}
 				}
 			]
