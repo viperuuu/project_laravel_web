@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "flipplay-modul4-api-collection",
+		"name": "FlipPlay REST API - Demo Modul 4",
+		"description": "Koleksi Postman resmi untuk pengujian Demo Modul 4 FlipPlay REST API (Laravel 12). Mencakup seluruh skenario Happy Path dan Failure Path sesuai rubrik penilaian.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Katalog Media (CRUD)",
+			"item": [
+				{
+					"name": "1. GET Semua Media",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/media",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"]
+						},
+						"description": "Menampilkan seluruh katalog media (Anime & Manga) dengan pagination dan API Resource."
+					}
+				},
+				{
+					"name": "2. GET Cari Judul (Query Filter)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/media?title=Hutan",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"],
+							"query": [
+								{
+									"key": "title",
+									"value": "Hutan"
+								}
+							]
+						},
+						"description": "Mencari media berdasarkan filter judul (Sesuai alur Modul 4 halaman 29)."
+					}
+				},
+				{
+					"name": "3. GET Filter Tipe Media (Anime / Manga)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/media?type=manga",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"],
+							"query": [
+								{
+									"key": "type",
+									"value": "manga"
+								}
+							]
+						},
+						"description": "Memfilter katalog hanya untuk tipe manga atau anime."
+					}
+				},
+				{
+					"name": "4. POST Tambah Media Baru (Happy Path - 201)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Sousou no Frieren S2\",\n    \"type\": \"anime\",\n    \"genre\": \"Fantasi, Drama\",\n    \"creator\": \"Madhouse\",\n    \"release_year\": 2025,\n    \"description\": \"Kelanjutan petualangan penyihir elf Frieren menuju Aureole.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/media",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"]
+						},
+						"description": "Menambahkan media baru dengan respons status code 201 Created."
+					}
+				},
+				{
+					"name": "5. POST Tambah Media Gagal - Field Kosong (Failure Path - 422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"type\": \"invalid_type\",\n    \"genre\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/media",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"]
+						},
+						"description": "Pengujian validasi Form Request: menghasilkan HTTP 422 Unprocessable Entity."
+					}
+				},
+				{
+					"name": "6. POST Tambah Media Gagal - Judul Duplikat (Failure Path - 422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Hutan Cahaya\",\n    \"type\": \"anime\",\n    \"genre\": \"Fantasi\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/media",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media"]
+						},
+						"description": "Pengujian validasi judul unique: judul 'Hutan Cahaya' sudah ada di seeder, menghasilkan 422."
+					}
+				},
+				{
+					"name": "7. GET Detail Media + Pengguna yang Mengoleksi",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/media/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media", "1"]
+						},
+						"description": "Menampilkan detail media beserta daftar pengguna yang mengoleksinya (Eager Loading whenLoaded)."
+					}
+				},
+				{
+					"name": "8. PATCH Update Media",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Deskripsi media telah diperbarui via Postman PATCH request.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/media/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media", "1"]
+						},
+						"description": "Memperbarui sebagian data media (HTTP 200 OK)."
+					}
+				},
+				{
+					"name": "9. DELETE Hapus Media",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/media/5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "media", "5"]
+						},
+						"description": "Menghapus media dari katalog sistem (HTTP 200 OK)."
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Koleksi Pengguna (Custom Action Many-to-Many)",
+			"item": [
+				{
+					"name": "1. GET Koleksi Media Pengguna",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/collections",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1", "collections"]
+						},
+						"description": "Menampilkan daftar seluruh media yang ada di dalam koleksi pengguna ID 1."
+					}
+				},
+				{
+					"name": "2. POST Tambah Media ke Koleksi (Custom Action Attach - 201)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"media_id\": 3,\n    \"status\": \"watching\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/1/collections",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1", "collections"]
+						},
+						"description": "Custom action: menambahkan media ke koleksi pengguna (attach relasi many-to-many)."
+					}
+				},
+				{
+					"name": "3. POST Tambah Media Duplikat ke Koleksi (Failure Path - 409 Conflict)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"media_id\": 1,\n    \"status\": \"watching\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/1/collections",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1", "collections"]
+						},
+						"description": "Failure path: media_id 1 sudah ada di koleksi user 1, API merespons 409 Conflict."
+					}
+				},
+				{
+					"name": "4. DELETE Hapus Media dari Koleksi (Custom Action Detach - 200)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/collections/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1", "collections", "1"]
+						},
+						"description": "Custom action: melepaskan relasi media dari koleksi pengguna (detach many-to-many)."
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Codelab Perpustakaan (Modul 4)",
+			"item": [
+				{
+					"name": "1. POST Pinjam Buku (borrow-book)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"book_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/members/1/borrow-book",
+							"host": ["{{base_url}}"],
+							"path": ["api", "members", "1", "borrow-book"]
+						}
+					}
+				},
+				{
+					"name": "2. GET Detail Member & Buku Pinjaman",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/members/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "members", "1"]
+						}
+					}
+				},
+				{
+					"name": "3. PATCH Kembalikan Buku (return-book)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/members/1/return-book/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "members", "1", "return-book", "1"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		}
+	]
+}
